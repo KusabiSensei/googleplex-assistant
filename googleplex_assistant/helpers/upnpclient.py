@@ -22,7 +22,7 @@ def map_port(port=40000):
     local_ip = upnp_client.lanaddr
     external_ip = upnp_client.externalipaddress()
     existing_mapping = upnp_client.getspecificportmapping(port, 'TCP')
-    if existing_mapping != None:
+    if (existing_mapping is not None) and (existing_mapping[0] != local_ip):
         raise RuntimeError('The selected port is being held by another mapping')
     logger.warning("Now attempting to map the port")
     bool_addport = upnp_client.addportmapping(port, 'TCP', local_ip, port, 'IFTTT Handler', '')
