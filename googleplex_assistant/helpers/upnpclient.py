@@ -24,10 +24,10 @@ def map_port(port=40000):
     existing_mapping = upnp_client.getspecificportmapping(port, 'TCP')
     if (existing_mapping is not None) and (existing_mapping[0] != local_ip):
         raise RuntimeError('The selected port is being held by another mapping')
-    logger.warning("Now attempting to map the port")
+    logger.debug("Now attempting to map the port")
     bool_addport = upnp_client.addportmapping(port, 'TCP', local_ip, port, 'IFTTT Handler', '')
     if bool_addport:
-        logger.warning("Port mapped.")
+        logger.debug("Port mapped.")
     else:
         raise RuntimeError("Port mapping failed. The application should be restarted.")
     return {'lan_ip': local_ip,
