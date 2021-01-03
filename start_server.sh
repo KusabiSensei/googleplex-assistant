@@ -30,21 +30,21 @@ echo "Now starting googleplex-assistant..."
 echo "Setting up DNS..."
 get_external_ip "$externalip"
 get_internal_ip "$internalip"
-hostname="$1"
+hostname="$HOSTNAME"
 check_dns_for_existing_entry "$hostname" "$existingip"
 echo "The current IP for $hostname is $existingip"
 echo "The currently detected external IP is $externalip"
 map_dns_to_external_ip "$hostname" "$ip"
 
-# Generate Let's Encrypt Certificate
-acme.sh --staging --issue --dns dns_aws -d "$hostname"
-cp /root/.acme.sh/googleplex.dickerson.io/fullchain.cer /app/app.cer
-cp /root/.acme.sh/googleplex.dickerson.io/googleplex.dickerson.io.key /app/app.key
-echo "Certificate is in /app/app.cer and the key is in /app/app.key"
+# Generate Let's Encrypt Certificate, if we don't have one already
+if [ ! -f /app/app.key ] && [ ! -f /app/app.cer ]; then
+  acme.sh --issue --dns dns_aws -d "$hostname"
+  cp "/root/.acme.sh/$hostname/fullchain.cer" /app/app.cer
+  cp "/root/.acme.sh/$hostname/$hostname.key" /app/app.key
+  echo "Certificate is in /app/app.cer and the key is in /app/app.key"
+fi
 
 # Setup nginx's run dir for pid and lockfiles so it will run
 mkdir /run/nginx
-
-#pipenv run uwsgi -s /tmp/googleplex.sock --manage-script-name --mount /=googleplex_assistant:application
-
-
+nginx
+pipenv run uwsgi -s /tmp/googleplex.sock --manage-script-name --mount /=googleplex_assistant:application
