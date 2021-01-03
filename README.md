@@ -43,4 +43,9 @@ All of this is driven off of how my home network is set up, since I want to make
 * A ___Linux___ Docker host (Host Networking is not supported on Docker for Mac, Docker for Windows, or Docker EE for Windows Server)
 * IFTTT or DialogFlow
 
-Oh, also Python 3.9 and `pipenv`. The startup shell script is in Bourne shell, so it should work on just about anything (e.g. `busybox` in Alpine Linux)
+Oh, also Python 3.9 and `pipenv`. The startup shell script is in Bourne shell, so it should work on just about anything
+(e.g. `busybox` in Alpine Linux)
+
+## Other documentation
+
+Other documentation about the program can be found in the project wiki.
