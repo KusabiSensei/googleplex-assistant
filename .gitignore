@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# TLS certificates
+/nginx/app.cer
+/nginx/app.key
